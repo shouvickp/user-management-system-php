@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <style>        
+    	.login-form {
+    		width: 340px;
+        	margin: 50px auto;
+    	}
+        .login-form form {
+        	margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+        .form-control, .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+        .btn {        
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="login-form">
+            <form  name="login_form" id="login_form">
+                <h2 class="text-center">Log in</h2>       
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Your Password" required="required">
+                </div>
+                <div class="form-group row">
+                    <label for="usertype" class="control-label col-8 col-sm-4 ml-3">User type: </label> <br>
+                    <div class="radio ml-4" name="usertype">
+                        <label class="radio-inline">
+                            <input type="radio" id="customer" name="usertype" checked="checked" value="customer"> Customer
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="admin" name="usertype" value="admin"> Admin
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="submit" name="submit" class="btn btn-primary btn-block" value="Log in">
+                </div>
+                <div class="clearfix">
+                    <label class="pull-left checkbox-inline"><input type="checkbox" checked="checked"> Remember me</label>
+                    <a href="#" class="pull-right">Forgot Password?</a>
+                </div>        
+            </form>
+            <p class="text-center"><a href="index.html">Create an Account</a></p>
+            <div class="message">
+                
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+            
+                //if submit button is clicked     
+                $('#submit').click(function () {       
+                    //fetching data from the form          
+                    var email = $('input[name=email]').val();
+                    var password = $('input[name=password]').val();
+                    var usertype = $('input[name=usertype]:checked').val();
+                          
+                    //organize the data properly
+                    var form_data = 
+                      'email='+email+
+                      '&password='+password+
+                      '&usertype='+usertype;
+                    //start the ajax
+                    $.ajax({
+                        //this is the php file that processes the data and send mail
+                        url: "confirmation.php",
+                         
+                        //POST method is used
+                        type: "POST",
+             
+                        //pass the data        
+                        data: form_data,    
+                         
+                        
+                        //success
+                        success: function (html) {             
+                            //if confirmation.php returned 1 redirecting to welcome.php
+                            if (html == 1) {                                          
+                                 alert('Successfully logged in !');
+                                 window.location.href = 'welcome.php';
+                            //if confirmation.php returned 1 redirecting to welcome.php
+                            } 
+                            else if(html == 2) {
+
+                                alert('Successfully logged in !');
+                                window.location.href = 'admin_panel.php';              
+                            }
+                            // if confirmation.php returned false then showing an error message
+                            else {
+                                alert('Error: user dosenot exist');
+                            }
+                        }      
+                    });
+                                 
+                        //cancel the submit button default behaviours
+                        return false;
+                    });
+                }); 
+        </script>
+    </body>
+</html>  
