@@ -3,7 +3,8 @@
 	// check  if logged in
 	if(!isset($_SESSION["email"])){
 		header("location: index.php");
-    }else{
+    }
+    else {
         // get user details
         $email = $_SESSION["email"];
         //get old password
@@ -20,16 +21,16 @@
         }
         else{
             // check if the typed new passwords matches while re entering
-            if($new_password != $retype_pass){
+            if($new_password != $retype_pass) {
                 echo "The passwords do not match. Try again.";
             }
-            else{
+            else {
                 //if matches the updating into the database
                 $query = "UPDATE user SET password = '$new_password' WHERE email = '$email'";
 
                 $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-                echo "sucessfully changed password login with new passsword.";
+                echo "sucessfully changed password, login with new passsword.";
             }
 
         }

@@ -29,13 +29,15 @@
 		{
 			echo "Password and Confirm password doesnot matched.";
 		}
-		else{
+		else {
 			// perform query operation
 			if(mysqli_query($conn, $query)){
 				echo "inserted successfully..!";
 				$_SESSION["email"] = $email;
 			}
+			//uploading the image to profilepic directory
 			move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $img);
+			//redirecting to response.php page
 			header("location: response.php");
 		}
 

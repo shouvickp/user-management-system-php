@@ -1,10 +1,12 @@
 <?php
 	require 'connect.php';
 	
-	// destroy the session if present
+	//checking whether a session is running
+	//if not then just redirecting to the logout page
 	if(!isset($_SESSION["email"])){
 		header("location: index.html");
 	}
+	//else destroy the session 
 	else{
 		session_unset();
 		session_destroy();

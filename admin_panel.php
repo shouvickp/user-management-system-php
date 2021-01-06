@@ -37,12 +37,16 @@
 	</p>
 	<hr>
 	<?php
+		//making a query to fetch details of all customers
 		$query = "select * from user";
+		//executing the query
         $result = mysqli_query($conn, $query);
+        //if it results 0 no. of rows the displaying no user exist
         if(mysqli_num_rows($result) == 0) {
 	        echo "No User  exists.";
 	    }
 	    else {
+	    	// display all users details in a tabular format
 	    	echo "<table>";
 			echo "<tr>
 				<th>User Email</th>
@@ -51,6 +55,7 @@
 				<th>Photo</th>
 				<th>Manage</th>
 				</tr>";
+			//taking a while loop to iterate all rows returned by the query
 			while($row = mysqli_fetch_array($result))
 			{
 				echo "<tr>";
@@ -72,6 +77,7 @@
 			    echo " width=\"50\">";
 			    echo "</td>";
 
+			    // taking a form to delete any one of the user which will redirect to delete.php
 			    echo "<td>";
 			    echo "<form action=\"delete.php\" method=\"post\">";
                 echo "<input type=\"hidden\" name=\"email_id\" value=";

@@ -10,6 +10,7 @@
 <body>
 	<div class="container">
 		<?php
+			//displaying the user details if succesfully registered
 			$email=$_SESSION["email"];
 			$query="select * from user where email='$email'";
 			$query_result = mysqli_query($conn, $query);

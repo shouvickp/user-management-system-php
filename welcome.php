@@ -34,11 +34,15 @@
 	<div class="container">
 		<?php
 			$email=$_SESSION["email"];
+			//query to show user details
 			$query="select * from user where email='$email'";
+			//executing the query
 			$query_result = mysqli_query($conn, $query);
+			//if found
 			if ($query_result->num_rows > 0) {
 			  $row = $query_result->fetch_assoc();
 			}
+			//displaying details of user in bootstrap card next
 		?>
 		<div class="row row-content">
 			<div class="col-12">
