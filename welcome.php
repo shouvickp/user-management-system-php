@@ -58,6 +58,14 @@
                         <p class="card-text"><b>Your credentials: </b><br>
 						<b><?php echo "Gender: ".$row["gender"]?></b><br>
 						<b><?php echo "City: ".$row["city"]?></b><br>
+						<?php
+							$query = "select * from book_habit where email = '$email'";
+	        				$result = mysqli_query($conn, $query);
+	        				if ($result->num_rows > 0) {
+							  $row = $result->fetch_assoc();
+							}
+							echo "<b> Book Habit: ".$row['books']."</b><br>";
+						?>
                     </div>
                 </div>
             </div>
@@ -115,6 +123,37 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="container">
+		<table>
+			<tr>
+				<td>
+					<form method="post" action="books.php">
+						<span>Select Books</span><br>
+						<input type="checkbox" name='book[]' value="PHP: A Beginner’s Guide"> PHP: A Beginner’s Guide <br>
+						<input type="checkbox" name='book[]' value="Learn JavaScript VISUALLY"> Learn JavaScript VISUALLY <br>
+						<input type="checkbox" name='book[]' value="JavaScript & JQuery: Interactive Front-End Web Development"> JavaScript & JQuery: Interactive Front-End Web Development <br>
+						<input type="checkbox" name='book[]' value="Angular — The Complete Guide"> Angular — The Complete Guide<br><br>
+						<input type="submit" name="book_submit" value="submit">
+					</form>
+				</td>
+				<td style="padding-left: 30px;">
+					<form action="books.php" method="post">
+						<label for="books">Select Books:</label><br>
+					  	<select name="books[]" multiple="multiple" size=4>
+					    <option value="PHP: A Beginner’s Guide">PHP: A Beginner’s Guide</option>
+					    <option value="Learn JavaScript VISUALLY">Learn JavaScript VISUALLY</option>
+					    <option value="JavaScript & JQuery: Interactive Front-End Web Development">JavaScript & JQuery: Interactive Front-End Web Development</option>
+					    <option value="Angular — The Complete Guide">Angular — The Complete Guide</option>
+					  	</select>
+					  	<br><br>
+					  	<input type="submit" name="b_submit" value="Submit">
+					</form>
+				</td>
+			</tr>
+		</table>	
+	</div>
+
 	<script>
         //function to preview the image
         function readURL(input) {

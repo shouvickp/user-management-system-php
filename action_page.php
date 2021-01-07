@@ -32,15 +32,20 @@
 		else {
 			// perform query operation
 			if(mysqli_query($conn, $query)){
-				echo "inserted successfully..!";
 				$_SESSION["email"] = $email;
+				//uploading the image to profilepic directory
+				if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $img)) {
+					//redirecting to login.php page
+					header("location: login.html");
+				}
+				else{
+					echo "Profile image not uploaded";
+				}				
 			}
-			//uploading the image to profilepic directory
-			move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $img);
-			//redirecting to response.php page
-			header("location: response.php");
+			else {
+				echo "Sorry! some error occurs! try agin later.";
+			}			
 		}
-
 	?>
 </body>
 </html>

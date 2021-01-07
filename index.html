@@ -4,15 +4,15 @@
 	<title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/styles.css">
-    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <!--link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 
     <h2>Registration Form</h2>
-
-    <form action="./action_page.php" method="post" enctype="multipart/form-data">
+    <form  id="signup_form" action="./action_page.php" method="post" enctype="multipart/form-data">
       <div class="imgcontainer">
         <img id="profilepic" src="profilepic/avatar.png" alt="Avatar" class="avatar"><br>
         <label for="fileToUpload"><b>Select image to upload:</b></label>
@@ -27,8 +27,6 @@
         <input type="password" placeholder="Enter Password" name="psw" id="psw"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*~])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter and one special characters, and at least 8 or more characters" required>
         <label for="confirm_psw"><b>Confirm Password</b></label>
         <input type="password" placeholder="Confirm Password" id="confirm_psw" name="confirm_psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*~])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter and one special characters, and at least 8 or more characters" required>
-        <div id="password-strength-status"></div>
-
         <label for="gender"><b>Gender</b></label> <br><br>
     	    <input type="radio" id="male" name="gender" checked="checked" value="male">
     		<label for="male">Male</label>&nbsp;&nbsp;
@@ -46,12 +44,12 @@
             <option value="Delhi">Delhi</option>
           </select>
     	        <br><br>
-    	<button type="submit" name="submit">Register</button>
+    	<button type="submit" id="submit" name="submit">Register</button>
     	<label>
             <input type="checkbox" name="terms_and_conditions" required="required">I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a>
     	</label>
         <br><br>
-        <label>Already have an account login <a href="login.html"> here.</a></label>
+        <label >Already have an account login <a href="login.html"> here.</a></label>
       </div>
     </form>
     <script>
