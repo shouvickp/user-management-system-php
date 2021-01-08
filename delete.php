@@ -1,25 +1,17 @@
-<?php
-    require ('connect.php');
-
-    //if delete button is pressed
-    if(isset($_POST['deletebtn']))
-    {
-        //fetching the email of the user whose data is to be deleted
-        $id = $_POST['email_id'];
-
-        //making the query to delete the user
-        $query = "DELETE FROM user WHERE email='$id'";
-        //executing the query
-        $result = mysqli_query($conn, $query);
-
-        //if the query is sucessful then redirecting to the admin panel
-        if($result)
-        {
-            header('Location: admin_panel.php'); 
-        }
-        //otherwise throwing an error message
-        else
-        {
-            echo "unable to delete data";
-        }    
-    }
+<?php  
+	require "connect.php";
+	$id = $_POST["id"];
+	$sql = "DELETE FROM user WHERE email = '$id'";
+	$q = "select profilepic from user where email='$id'";
+    $res = mysqli_query($conn, $q);
+    $row = mysqli_fetch_assoc($res);
+    $imgurl = $row['profilepic'];  
+	if(mysqli_query($conn, $sql))  
+	{  
+		unlink($imgurl);
+		echo 'Data Deleted successfully.';  
+	}
+	else{
+		echo 'Data Deleted successfully.';
+	}  
+ ?>

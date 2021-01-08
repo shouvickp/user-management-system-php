@@ -1,95 +1,62 @@
-<?php
- 	require "./connect.php";
-    if(!isset($_SESSION)){
-        session_start();
-    }
- ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Admin Panel</title>
-	<style type="text/css">
-		table, th, td {
-		  border: 1px solid black;
-		  border-collapse: collapse;
-		}
-		table{
-			margin-left: 450px;
-		}
-		th, td {
-		  padding: 5px;
-		  text-align: center;    
-		}
-		#logout{
-			float: right;
-			display: inline;
-		}
-		#logout_btn{
-			background-color: green;
-			color: white;
-		}
-	</style>
-</head>
-<body>
-	<p>
-		<h2 style="text-align: center;">Admin Panel</h2>
-		<a id="logout" href="logout.php"><button type="submit" id="logout_btn" name="logout_button"> Logout </button></a>
-	</p>
-	<hr>
-	<?php
-		//making a query to fetch details of all customers
-		$query = "select * from user";
-		//executing the query
-        $result = mysqli_query($conn, $query);
-        //if it results 0 no. of rows the displaying no user exist
-        if(mysqli_num_rows($result) == 0) {
-	        echo "No User  exists.";
-	    }
-	    else {
-	    	// display all users details in a tabular format
-	    	echo "<table>";
-			echo "<tr>
-				<th>User Email</th>
-				<th>Gender</th>
-				<th>City</th>
-				<th>Photo</th>
-				<th>Manage</th>
-				</tr>";
-			//taking a while loop to iterate all rows returned by the query
-			while($row = mysqli_fetch_array($result))
-			{
-				echo "<tr>";
-				echo "<td>";
-			    echo ($row['email']);
-			    echo "</td>";
+<html>  
+    <head>  
+        <title>Admin Panel</title>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    </head>  
+    <body>  
+        <div class="container">  
+            <br />  
+            <br />
+            <p style="float: right"><button onclick="logout()" class="btn btn-sm btn-danger">Logout</button></p>
+			<div class="table-responsive">  
+				<h3 align="center">Welcome to admin Panel</h3><br />
 
-			    echo "<td>";
-			    echo $row['gender'];
-			    echo "</td>";
-
-			    echo "<td>";
-			    echo $row['city'];
-			    echo "</td>";
-
-			    echo "<td>";
-			    echo "<img src=";
-			    echo $row['profilepic'];
-			    echo " width=\"50\">";
-			    echo "</td>";
-
-			    // taking a form to delete any one of the user which will redirect to delete.php
-			    echo "<td>";
-			    echo "<form action=\"delete.php\" method=\"post\">";
-                echo "<input type=\"hidden\" name=\"email_id\" value=";
-                echo $row['email'];
-                echo">";
-                echo "<input type=\"submit\"  name=\"deletebtn\" value=\"delete\">";
-                echo "</form>";
-			    echo "</td>";
-			    echo "</tr>";
-			}
-			echo "</table>";
-	    }
-    ?>
-</body>
-</html>
+				<div id="live_data"></div>                 
+			</div>  
+		</div>
+    </body>  
+</html>  
+<script> 
+    function logout() {
+            $.ajax({
+                url: 'logout.php',
+                type: 'get',
+                data:{action:'logout'},
+                success: function(data){
+                    alert(data);
+                    window.location.href = "login.html";
+                }
+              });
+    } 
+    $(document).ready(function(){  
+        function fetch_data()  
+        {  
+            $.ajax({  
+                url:"select.php",  
+                method:"POST",  
+                success:function(data){  
+    				$('#live_data').html(data);  
+                }  
+            });  
+        }  
+         fetch_data();   
+        $(document).on('click', '.btn_delete', function(){  
+            var id=$(this).data("id");  
+            if(confirm("Are you sure you want to delete this?"))  
+            {  
+                $.ajax({  
+                    url:"delete.php",  
+                    method:"POST",  
+                    data:{id:id},  
+                    dataType:"text",  
+                    success:function(data){  
+                        alert(data);  
+                        fetch_data();  
+                    }  
+                });  
+            }  
+        });  
+    });  
+</script>

@@ -29,7 +29,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-light bg-light">
-	  <a href="logout.php"><button class="btn btn-warning my-2 my-sm-0" type="submit">logout</button></a>
+	  <!--a href="logout.php"--><button onclick="logout()"class="btn btn-warning my-2 my-sm-0" type="submit">logout</button><!--/a-->
 	</nav>
 	<div class="container">
 		<?php
@@ -63,8 +63,11 @@
 	        				$result = mysqli_query($conn, $query);
 	        				if ($result->num_rows > 0) {
 							  $row = $result->fetch_assoc();
+							  echo "<b> Book Habit: ".$row['books']."</b><br>";
 							}
-							echo "<b> Book Habit: ".$row['books']."</b><br>";
+							else{
+								echo "<b> Book Habit: </b><br>";
+							}	
 						?>
                     </div>
                 </div>
@@ -169,6 +172,18 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
+        }
+        // function to logout
+        function logout() {
+        	$.ajax({
+		        url: 'logout.php',
+	            type: 'get',
+	            data:{action:'logout'},
+	            success: function(data){
+	            	alert(data);
+	                window.location.href = "login.html";
+	            }
+		      });
         }
     </script>
 </body>
