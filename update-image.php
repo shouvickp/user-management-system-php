@@ -22,5 +22,6 @@
     //deleting the old image from the directory profilepic
     unlink($oldimg);
     //on successfully upadate image redirect to customer dashboard
-	header("location: welcome.php?message=success");
+	//echo "image updated successfully";
+    //header("location: welcome.php?message=success");
 ?>

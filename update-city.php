@@ -12,5 +12,8 @@
 	//executing the query if any error ocuurs the destroying the connection
     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     //on successfully upadate city redirect to customer dashboard
-	header("location: welcome.php?message=success");
+	if($result){
+		echo "city updated successfully";
+	}
+	else echo 0;
 ?>
