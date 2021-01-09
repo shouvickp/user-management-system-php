@@ -72,12 +72,10 @@
               {
                 echo 'Sorry! mail is not send';
               }
-           }
-           else
-           {
-            echo 'You entered mail id is not present in the database';
-           }
-        }
+            }
+            else
+              echo 'Sorry! email doesn\'t present in the database';
+          }
       ?>
   </body>
 </html>

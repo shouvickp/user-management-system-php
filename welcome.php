@@ -23,13 +23,19 @@
 		body{
 			padding:5px;
 		}
-	.card-horizontal {
-	    display: flex;
-	    flex: 1 1 auto;
-	}
-	.card-body{
-		margin-left: 2%;
-	}
+		.card{
+			width: 90%;
+		}
+		.card-horizontal {
+		    display: flex;
+		    flex: 1 1 auto;
+		}
+		.card-body{
+			margin-left: 2%;
+		}
+		.panel{
+			width: 80%;
+		}
 	</style> 
 </head>
 <body>
@@ -86,8 +92,9 @@
 		<form enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="imageFile"><b>Select image to update profile photo:</b>
-		    	<input type="file" name="imageFile" id="imageFile" accept="image/*" onchange="readURL(this);">
+		    	<input type="file" name="imageFile" id="imageFile" accept="image/*" onchange="readURL(this);" class="form-control-file-inline">
 		    	</label>
+		    	<img src="" id="preview" width="30">
 		    </div>
 		    <div class="form-group">
 	            <button type="submit" id="image-upload" onclick="upd_img()" name="image-upload" class="btn btn-primary btn-block-sm"> Upload image </button>
@@ -106,7 +113,7 @@
 		            <option value="Mumbai">Mumbai</option>
 		            <option value="Delhi">Delhi</option>
 		          </select>&nbsp; &nbsp;
-		    	<button type="submit" onclick="upd_city()" name="submit">Update</button>
+		    	<button type="submit" class="btn btn-primary" onclick="upd_city()" name="submit">Update</button>
 		    </div>
     	</form>
 	</div>
@@ -117,7 +124,7 @@
 				<h2 class="panel-title">Change Password</h2>
 			</div>
 			<div class="panel-body">
-				<form action="password_script.php" method="post">
+				<form>
 					<div class="form-group">
 						<input type="password" class="form-control" name="old_pass" placeholder="Old Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*~])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter and one special characters, and at least 8 or more characters" required>
 						</div>
@@ -137,13 +144,13 @@
 		<table>
 			<tr>
 				<td>
-					<form method="post" action="books.php">
+					<form>
 						<span>Select Books</span><br>
 						<input type="checkbox" name='book[]' value="PHP: A Beginner’s Guide"> PHP: A Beginner’s Guide <br>
 						<input type="checkbox" name='book[]' value="Learn JavaScript VISUALLY"> Learn JavaScript VISUALLY <br>
 						<input type="checkbox" name='book[]' value="JavaScript & JQuery: Interactive Front-End Web Development"> JavaScript & JQuery: Interactive Front-End Web Development <br>
 						<input type="checkbox" name='book[]' value="Angular — The Complete Guide"> Angular — The Complete Guide<br><br>
-						<input type="submit" name="book_submit" value="submit">
+						<input type="submit" class="btn btn-primary" onclick="book_habit()" name="book_submit" value="submit">
 					</form>
 				</td>
 				<td style="padding-left: 30px;">
@@ -155,7 +162,7 @@
 					<div class="form-group">
 			            <label>Select Favourite Book</label>
 			            <!-- <select name="fav_book" id="fav_book" class="form-control form-control-lg select2"> -->
-			            <select class="selectpicker" onclick="select_book()" multiple data-live-search="true">
+			            <select class="selectpicker" id="fav-bk" onclick="select_book()" multiple data-live-search="true" data-title="Select your favorite book">
 				            <?php
 					            foreach($result as $row)
 					            {
@@ -178,9 +185,9 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#profilepic')
+                    $('#preview')
                         .attr('src', e.target.result)
-                        .width(150);
+                        .width(30);
                 };
 
                 reader.readAsDataURL(input.files[0]);
@@ -232,7 +239,7 @@
 	            	processData: false,
 	            	data: form_data,
 	           		success:function(html){
-	              			              	
+	              		window.location.href = "welcome.php";         	
 	              	}
       			});
 		    }
@@ -259,6 +266,62 @@
 	              		}
 	              	}
       			});
+		}
+
+		function change_pass(){
+			var old_pass = $('input[name=old_pass]').val();
+			var new_pass = $('input[name=new_pass]').val();
+    		var retype_new_pass = $('input[name=retype_new_pass]').val();
+    		var pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*~]).*$/;
+		    if(!pattern.test(new_pass)) {
+		      alert('Password must contain at least one number and one uppercase and lowercase letter and one special characters, and at least 8 or more characters.');
+		    }
+		    else if(new_pass != retype_new_pass) {
+		      alert("Password doesnot matched.");
+		    }
+		    else {
+		      	var form_data = 'old_pass='+old_pass+
+		    					'&new_pass='+new_pass;
+		      //Ajax to send file to upload
+		      	$.ajax({
+		        	url: "password_script.php",          //Server api to receive the file
+		            type: "POST",
+		            data: form_data,
+		            success:function(data){
+		            	if(data!=0) {
+			                if(data != -1) {
+			                  alert(data+'login with new password now!');
+			                  window.location.href = "login.html";
+			                }
+			                else {
+			                  alert('Do you forgot old password! Then try forgot password');
+			                  window.location.href = "login.html";
+			                }
+		              	}
+		             	else 
+		                	alert("Error: Unable to change password.");
+		            }
+		      });
+		    }
+		}
+
+		function book_habit(){
+			alert('inside');
+			var favorite = [];
+            $.each($("input[name='book[]']:checked"), function(){
+                favorite.push($(this).val());
+            });
+
+			var all_book = favorite.join(", ");
+			var form_data ='all_book='+all_book;
+			$.ajax({
+		        	url: "books.php",          //Server api to receive the file
+		            type: "POST",
+		            data: form_data,
+		            success:function(data){
+		            	alert(data);
+		            }
+		        });
 		}
 
     </script>
